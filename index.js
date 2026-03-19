@@ -186,6 +186,8 @@ app.get('/api/hips2fits', async (req, res) => {
             EX: 86400,
         });
 
+        /*------------------------------------------------------------------------------------------------------------*/
+
         res.setHeader('Content-Type', 'image/jpeg');
         res.setHeader('Content-Length', String(buffer.length));
         res.setHeader('X-Cache', 'MISS');
@@ -195,9 +197,9 @@ app.get('/api/hips2fits', async (req, res) => {
     }
     catch(error)
     {
-        console.error(error);
-
         res.status(500).send('Internal server error');
+
+        console.error(error);
     }
 });
 
