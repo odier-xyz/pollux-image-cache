@@ -7,11 +7,13 @@ import express from 'express';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import {createClient} from 'redis';
+import {RESP_TYPES, createClient} from 'redis';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const redis = createClient({url: 'redis://127.0.0.1:6379'});
+const redis = createClient({url: 'redis://127.0.0.1:6379'}).withTypeMapping({
+    [RESP_TYPES.BLOB_STRING]: Buffer,
+});
 
 redis.on('error', (error) => {
 
@@ -128,7 +130,13 @@ app.get('/api/hips2fits', async (req, res) => {
             return;
         }
 
-        const query = {ra, dec, fov, width, height};
+        const query = {
+            ra: ra,
+            dec: dec,
+            fov: fov,
+            width: width,
+            height: height,
+        };
 
         /*------------------------------------------------------------------------------------------------------------*/
 
@@ -143,6 +151,7 @@ app.get('/api/hips2fits', async (req, res) => {
         if(cached != null)
         {
             res.setHeader('Content-Type', 'image/jpeg');
+            res.setHeader('Content-Length', String(cached.length));
             res.setHeader('X-Cache', 'HIT');
             res.send(cached);
 
@@ -171,6 +180,7 @@ app.get('/api/hips2fits', async (req, res) => {
         });
 
         res.setHeader('Content-Type', 'image/jpeg');
+        res.setHeader('Content-Length', String(buffer.length));
         res.setHeader('X-Cache', 'MISS');
         res.send(buffer);
 
