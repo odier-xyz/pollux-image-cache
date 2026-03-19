@@ -1,0 +1,27 @@
+#/etc/systemd/system/pollux-image-cache.service
+
+[Unit]
+Description=Pollux Image Cache
+After=network-online.target redis-server.service
+Wants=network-online.target redis-server.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/pollux-image-cache
+
+ExecStart=/usr/bin/node /var/www/pollux-image-cache/index.js
+
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
