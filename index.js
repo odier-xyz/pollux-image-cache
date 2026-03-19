@@ -144,9 +144,7 @@ app.get('/api/hips2fits', async (req, res) => {
 
         /*------------------------------------------------------------------------------------------------------------*/
 
-        const cached = await redis.sendCommand(['GET', cacheKey], {
-            returnBuffers: true,
-        });
+        const cached = await redis.get(cacheKey);
 
         if(cached != null)
         {
