@@ -96,7 +96,11 @@ function buildRemoteUrl(baseUrl, query)
 
 async function fetchRemoteImage(query)
 {
+    /*----------------------------------------------------------------------------------------------------------------*/
+
     const firstIndex = Math.floor(Math.random() * HIPS2FITS_BASE_URLS.length);
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     for(let i = 0; i < HIPS2FITS_BASE_URLS.length; i++)
     {
@@ -118,6 +122,8 @@ async function fetchRemoteImage(query)
             console.error(`Fetch failed for ${baseUrl}: ${/*--*/ error /*--*/}`);
         }
     }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     return null;
 }
