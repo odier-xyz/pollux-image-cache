@@ -10,7 +10,6 @@ Type=simple
 User=www-data
 Group=www-data
 WorkingDirectory=/var/www/pollux-image-cache
-
 ExecStart=/usr/bin/node /var/www/pollux-image-cache/index.js
 
 Restart=always
@@ -24,4 +23,3 @@ StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
-
