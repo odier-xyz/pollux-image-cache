@@ -132,6 +132,12 @@ A systemd service file is provided:
 
 ---
 
+## Author
+
+- Jérôme Odier
+
+---
+
 ## License
 
 GPL-3.0-or-later
