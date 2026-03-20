@@ -27,7 +27,22 @@ import {RESP_TYPES, createClient} from 'redis';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const redis = createClient({url: 'redis://127.0.0.1:6379'}).withTypeMapping({
+const HTTP_PORT = 3999;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const REDIS_URL = 'redis://127.0.0.1:6379';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const HIPS2FITS_BASE_URLS = [
+    'https://alasky.cds.unistra.fr/hips-image-services/hips2fits',
+    'https://alaskybis.cds.unistra.fr/hips-image-services/hips2fits',
+];
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const redis = createClient({url: REDIS_URL}).withTypeMapping({
     [RESP_TYPES.BLOB_STRING]: Buffer,
 });
 
@@ -37,13 +52,6 @@ redis.on('error', (error) => {
 });
 
 await redis.connect();
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-const BASE_URLS = [
-    'https://alasky.cds.unistra.fr/hips-image-services/hips2fits',
-    'https://alaskybis.cds.unistra.fr/hips-image-services/hips2fits',
-];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -88,11 +96,11 @@ function buildRemoteUrl(baseUrl, query)
 
 async function fetchRemoteImage(query)
 {
-    const firstIndex = Math.floor(Math.random() * BASE_URLS.length);
+    const firstIndex = Math.floor(Math.random() * HIPS2FITS_BASE_URLS.length);
 
-    for(let i = 0; i < BASE_URLS.length; i++)
+    for(let i = 0; i < HIPS2FITS_BASE_URLS.length; i++)
     {
-        const baseUrl = BASE_URLS[(firstIndex + i) % BASE_URLS.length];
+        const baseUrl = HIPS2FITS_BASE_URLS[(firstIndex + i) % HIPS2FITS_BASE_URLS.length];
 
         try
         {
@@ -107,7 +115,7 @@ async function fetchRemoteImage(query)
         }
         catch(error)
         {
-            console.error(`Fetch failed for ${baseUrl}: ${error}`);
+            console.error(`Fetch failed for ${baseUrl}: ${/*--*/ error /*--*/}`);
         }
     }
 
@@ -130,6 +138,7 @@ app.use((req, res, next) => {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 app.get('/api/hips2fits', async (req, res) => {
+
     try
     {
         /*------------------------------------------------------------------------------------------------------------*/
@@ -213,17 +222,17 @@ app.get('/api/hips2fits', async (req, res) => {
     }
     catch(error)
     {
-        res.status(500).send('Internal server error');
+        res.status(500).send(`Internal server error: ${error}`);
 
-        console.error(error);
+        console.error('Internal server error', error);
     }
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-app.listen(3999, () => {
+app.listen(HTTP_PORT, () => {
 
-    console.log('Server listening on port 3999');
+    console.log(`Server listening on port ${HTTP_PORT}`);
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
