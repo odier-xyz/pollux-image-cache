@@ -59,7 +59,7 @@ Client → Pollux Image Cache → Redis → CDS HiPS servers
 ### Requirements
 
 - Node.js >= 18
-- Redis >= 6
+- Redis >= 7
 
 ### Install dependencies
 
