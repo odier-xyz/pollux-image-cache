@@ -1,4 +1,4 @@
-# /etc/systemd/system/pollux-image-cache.service
+# cp pollux-image-cache.service /etc/systemd/system/pollux-image-cache.service
 
 [Unit]
 Description=Pollux Image Cache
