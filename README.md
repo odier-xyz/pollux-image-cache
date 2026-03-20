@@ -42,7 +42,7 @@ http://localhost:3999/api/hips2fits?ra=10.684&dec=41.269&fov=0.5&width=512&heigh
 ### Response headers
 
 - Content-Type: image/jpeg
-- X-Cache: HIT or MISS
+- X-Cache: `cache` or `cds`
 
 ---
 

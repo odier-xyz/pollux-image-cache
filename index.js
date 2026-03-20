@@ -190,7 +190,7 @@ app.get('/api/hips2fits', async (req, res) => {
         {
             res.setHeader('Content-Type', 'image/jpeg');
             res.setHeader('Content-Length', String(cached.length));
-            res.setHeader('X-Cache', 'HIT');
+            res.setHeader('X-Cache', 'cache');
             res.send(cached);
 
             return;
@@ -221,7 +221,7 @@ app.get('/api/hips2fits', async (req, res) => {
 
         res.setHeader('Content-Type', 'image/jpeg');
         res.setHeader('Content-Length', String(buffer.length));
-        res.setHeader('X-Cache', 'MISS');
+        res.setHeader('X-Cache', 'cds');
         res.send(buffer);
 
         /*------------------------------------------------------------------------------------------------------------*/
